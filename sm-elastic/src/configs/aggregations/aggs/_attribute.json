@@ -1,0 +1,37 @@
+
+{
+  "1068_attr": {
+    "terms": {
+      "field": "1068_attr.valueId"
+    }
+  }
+}
+/*
+{
+  "attributes": {
+    "nested": {
+      "path": "attributes"
+    },
+    "aggs": {
+      "attributes": {
+        "terms": {
+          "field": "attributes.id"
+        },
+        "aggs": {
+          "values": {
+            "nested": {
+              "path": "attributes.value"
+            },
+            "aggs": {
+              "values": {
+                "terms": {
+                  "field": "attributes.value.id"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}*/

@@ -1,0 +1,9 @@
+{
+  "bool": {
+    "filter": {
+      "term": {
+        "__NAME__.valueId": __VALUE__
+      }
+    }
+  }
+}

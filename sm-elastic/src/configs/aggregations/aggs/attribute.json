@@ -1,0 +1,7 @@
+{
+  "__NAME__": {
+    "terms": {
+      "field": "__NAME__.valueId"
+    }
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "bool": {
+    "filter": [
+      {
+        "term": {
+          "functionalNameId": __VALUE__
+        }
+      }
+    ]
+  }
+}

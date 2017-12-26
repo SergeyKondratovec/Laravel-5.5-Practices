@@ -1,0 +1,241 @@
+[
+  {
+    "size": 0,
+    "query": {
+      "bool": {
+        "must": {
+          "term": {
+            "title": "gris"
+          }
+        },
+        "filter": [
+          {
+            "bool": {
+              "should": [
+                {
+                  "bool": {
+                    "filter": [
+                      {
+                        "term": {
+                          "functionalNameId": 1
+                        }
+                      },
+                      {
+                        "nested": {
+                          "path": "attributes",
+                          "query": {
+                            "bool": {
+                              "filter": [
+                                {
+                                  "term": {
+                                    "attributes.valueId": 2485
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "nested": {
+                          "path": "attributes",
+                          "query": {
+                            "bool": {
+                              "filter": [
+                                {
+                                  "term": {
+                                    "attributes.valueId": 2471
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                },
+                {
+                  "bool": {
+                    "filter": [
+                      {
+                        "term": {
+                          "functionalNameId": 5
+                        }
+                      },
+                      {
+                        "nested": {
+                          "path": "attributes",
+                          "query": {
+                            "bool": {
+                              "filter": [
+                                {
+                                  "term": {
+                                    "attributes.valueId": 2485
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "aggs": {
+      "functionalName": {
+        "terms": {
+          "field": "functionalNameId"
+        }
+      },
+      "attributes": {
+        "nested": {
+          "path": "attributes"
+        },
+        "aggs": {
+          "attributes": {
+            "terms": {
+              "field": "attributes.valueId"
+            }
+          }
+        }
+      }
+    }
+  },
+  /*-------------------------------------------------------------------------------*/
+  {
+    "size": 0,
+    "query": {
+      "bool": {
+        "must": {
+          "term": {
+            "title": "gris"
+          }
+        },
+        "filter": [
+          {
+            "bool": {
+              "should": [
+                {
+                  "bool": {
+                    "filter": [
+                      {
+                        "term": {
+                          "functionalNameId": 5
+                        }
+                      },
+                      {
+                        "nested": {
+                          "path": "attributes",
+                          "query": {
+                            "bool": {
+                              "filter": [
+                                {
+                                  "nested": {
+                                    "path": "attributes.value",
+                                    "query": {
+                                      "bool": {
+                                        "filter": [
+                                          {
+                                            "term": {
+                                              "attributes.value.id": 2485
+                                            }
+                                          }
+                                        ]
+                                      }
+                                    }
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    },
+    "aggs": {
+      "functionalName": {
+        "terms": {
+          "field": "functionalNameId"
+        }
+      },
+      "attributes": {
+        "nested": {
+          "path": "attributes.value"
+        },
+        "aggs": {
+          "attributes": {
+            "terms": {
+              "field": "attributes.value.id"
+            }
+          }
+        }
+      }
+    }
+  },
+  {
+    "size": 0,
+    "query": {
+      "bool": {
+        "must": {
+          "term": {
+            "title": "omelet"
+          }
+        }
+      }
+    },
+    "aggs": {
+      "functionalName": {
+        "terms": {
+          "field": "functionalNameId"
+        }
+      },
+      "attributes": {
+        "filter": {
+          "bool": {
+            "should": [
+              {
+                "term": {
+                  "functionalNameId": 124
+                }
+              },
+              {
+                "term": {
+                  "functionalNameId": 269
+                }
+              }
+            ]
+          }
+        },
+        "aggs": {
+          "attributes": {
+            "nested": {
+              "path": "attributes.value"
+            },
+            "aggs": {
+              "value": {
+                "terms": {
+                  "field": "attributes.value.id"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]
+

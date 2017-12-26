@@ -1,0 +1,7 @@
+{
+  "functionalName": {
+    "terms": {
+      "field": "functionalNameId"
+    }
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "must": {
+    "term": {
+      "title": "__VALUE__"
+    }
+  }
+}
