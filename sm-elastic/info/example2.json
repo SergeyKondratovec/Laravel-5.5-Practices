@@ -1,0 +1,103 @@
+GET sm-*/_search
+
+GET sm-*/_search
+{
+  "from": 0,
+  "size": 10,
+  "query": {
+    "match": {
+      "title": "blanc neige"
+    }
+  },
+  "highlight": {
+    "pre_tags": ["<b>"],
+    "post_tags": ["<\/b>"],
+    "fields" : {
+      "title" : {}
+    }
+  }
+}
+
+
+
+
+POST sm-*/_search
+{
+  "size": 0,
+  "query": {
+    "bool": {
+      "filter": [
+        {
+          "bool": {
+            "should": [
+              {
+                "bool" : {
+                  "filter" : [
+                    {"term":{
+                      "functionalNameId": 269
+                    }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "aggs" : {
+    "functionalName": {
+      "terms": {
+        "field": "functionalNameId"
+      }
+    },
+    "attributes" : {
+      "nested": {
+        "path": "attributes.value"
+      },
+      "aggs": {
+        "value": {
+          "terms" : {
+            "field": "attributes.value.id"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+POST sm-*/_search
+{
+  "size": 0,
+  "aggs": {
+    "attributes": {
+      "nested": {
+        "path": "attributes"
+      },
+      "aggs": {
+        "attributes": {
+          "terms": {
+            "field": "attributes.id"
+          },
+          "aggs": {
+            "values": {
+              "nested": {
+                "path": "attributes.value"
+              },
+              "aggs": {
+                "values": {
+                  "terms": {
+                    "field": "attributes.value.id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

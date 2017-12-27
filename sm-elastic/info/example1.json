@@ -1,0 +1,297 @@
+DELETE my_index
+
+PUT my_index
+{
+  "mappings": {
+    "my_type": {
+
+      "dynamic_templates": [
+        {
+          "aa": {
+            "match_mapping_type": "string",
+            "mapping": {
+              "type": "nested"
+            }
+          }
+        }
+      ]
+    }
+  }
+}
+
+GET sm-*/_search
+
+GET sm-*/_search
+{
+  "size": 0,
+  "aggs": {
+    "a-selected": {
+      "nested": {
+        "path": "attributes"
+      },
+      "aggs": {
+        "attributes": {
+          "terms": {
+            "field": "attributes.id"
+          },
+          "aggs": {
+            "values": {
+              "nested": {
+                "path": "attributes.value"
+              },
+              "aggs": {
+                "values": {
+                  "terms": {
+                    "field": "attributes.value.id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "attributes": {
+      "nested": {
+        "path": "attributes"
+      },
+      "aggs": {
+        "attributes": {
+          "terms": {
+            "field": "attributes.id"
+          },
+          "aggs": {
+            "values": {
+              "nested": {
+                "path": "attributes.value"
+              },
+              "aggs": {
+                "values": {
+                  "terms": {
+                    "field": "attributes.value.id"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+POST sm-*/_search
+{
+  "size": 0,
+  "aggs" : {
+    "functionalName": {
+      "terms": {
+        "field": "functionalNameId"
+
+      }
+
+
+
+    },
+    "attributes" : {
+      "filter" : {
+        "query":{
+          "bool":{
+
+            "should":
+            {
+              "term": { "functionalNameId": 124}
+            }
+          }
+        }
+      },
+      "aggs": {
+        "attributes": {
+          "nested": {
+            "path": "attributes.value"
+          },
+          "aggs": {
+            "value": {
+              "terms" : {
+                "field": "attributes.value.id"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+
+}
+
+
+
+GET sm-*/_search
+{
+  "size": 0,
+  "aggs": {
+    "attributes": {
+      "nested": {
+        "path": "attributes"
+      },
+      "aggs": {
+        "attributes": {
+          "terms": {
+            "field": "attributes.id"
+          },
+          "aggs": {
+            "values": {
+              "nested": {
+                "path": "attributes.value"
+              },
+              "aggs": {
+                "values": {
+                  "terms": {
+                    "field": "attributes.value.id"
+                  },
+                  "aggs": {
+                    "aaaa":{
+                      "filter" : {
+                        "bool":{
+                          "should":{
+                            "term": { "attributes.value.id": 2747}
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+POST sm-*/_search
+{
+  "size": 0,
+  "sort":[
+    "_id"
+  ],
+  "query": {
+    "bool": {
+      //"must" : {
+      // "term" : { "title" : "Broodje" }
+      //      },
+      "filter": [
+        {
+          "bool": {
+            "should": [
+              {
+                "bool" : {
+                  "filter" : [
+                    {
+                      "nested": {
+                        "path": "attributes",
+                        "query": {
+                          "bool": {
+                            "filter": [
+                              { "nested": {
+                                "path": "attributes.value",
+                                "query": {
+                                  "bool": {
+                                    "filter": [
+                                      {
+                                        "term": {
+                                          "attributes.value.id":811
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                              }
+                            ]
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "aggs" : {
+    "functionalName": {
+      "aggs": {
+        "functionalName": {
+          "terms": {
+            "field": "functionalNameId"
+          }
+        }
+      }
+    },
+    "attributes" : {
+      "nested": {
+        "path": "attributes.value"
+      },
+      "filter" : { "term": { "functionalNameId": 124} },
+      "aggs": {
+        "value": {
+          "terms" : {
+            "field": "attributes.value.id"
+          }
+        }
+      }
+    }
+  }
+}
+
+
+
+
+
+
+GET
+{
+  "bool" : {
+    "filter" : [
+      {"term":{
+        "functionalNameId": 1
+      }
+      },
+      {
+        "nested": {
+          "path": "attributes",
+          "query": {
+            "bool": {
+              "filter": [
+                { "term": {
+                  "attributes.values.id":2485
+                }
+                }
+              ]
+            }
+          }
+        }
+      },
+      {
+        "nested": {
+          "path": "attributes",
+          "query": {
+            "bool": {
+              "filter": [
+                { "term": {
+                  "attributes.values.id":2471
+                }
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}
